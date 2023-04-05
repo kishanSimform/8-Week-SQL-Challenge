@@ -26,7 +26,7 @@ GO
 WITH cte AS (
 	SELECT customer_id, m.product_name,
 		DENSE_RANK() OVER(PARTITION BY customer_id 
-										 ORDER BY order_date) AS [First Item]
+		ORDER BY order_date) AS [First Item]
 	FROM sales s 
 	JOIN menu m
 	ON s.product_id = m.product_id )
@@ -56,7 +56,7 @@ GO
 WITH cte AS (
 	SELECT customer_id, product_id, 
 			RANK() OVER (PARTITION BY customer_id 
-						ORDER BY COUNT(product_id) DESC) [Popular]
+			ORDER BY COUNT(product_id) DESC) [Popular]
 	FROM sales
 	GROUP BY customer_id, product_id
 	)
@@ -71,8 +71,8 @@ GO
 -- 6. Which item was purchased first by the customer after they became a member?
 WITH cte AS (
 	SELECT customer_id, m.product_name, s.order_date, 
-			RANK() OVER (PARTITION BY customer_id 
-						ORDER BY order_date) AS [Row]
+			RANK() OVER (PARTITION BY 
+			ORDER BY order_date) AS [Row]
 	FROM sales s 
 	JOIN menu m
 	ON s.product_id = m.product_id
@@ -89,7 +89,7 @@ GO
 WITH cte AS (
 	SELECT customer_id, m.product_name, s.order_date, 
 			RANK() OVER (PARTITION BY customer_id
-						ORDER BY order_date desc) AS [Row]
+			ORDER BY order_date desc) AS [Row]
 	FROM sales s 
 	JOIN menu m
 	ON s.product_id = m.product_id
@@ -115,10 +115,13 @@ GO
 
 -- 9.  If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
 SELECT customer_id, 
-		SUM(CASE 
-				WHEN s.product_id = 1 THEN m.price * 20
-				ELSE m.price * 10 
-			END) AS [Points]
+		SUM(
+			CASE 
+			WHEN s.product_id = 1 
+				THEN m.price * 20
+			ELSE m.price * 10 
+			END
+		) AS [Points]
 FROM sales s
 JOIN menu m
 ON s.product_id = m.product_id
@@ -134,7 +137,8 @@ SELECT s.customer_id,
 			WHEN order_date BETWEEN join_date AND DATEADD(DAY, 6, join_date)
 				THEN price * 20
 			ELSE price * 10
-			END) AS [Total Points]
+			END
+		) AS [Total Points]
 FROM sales s
 JOIN members ms
 ON s.customer_id= ms.customer_id
