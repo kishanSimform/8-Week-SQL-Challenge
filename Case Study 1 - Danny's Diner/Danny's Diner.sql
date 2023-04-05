@@ -4,10 +4,6 @@
 
 USE [Week 1 - Danny's Diner]
 
-SELECT * FROM members;
-SELECT * FROM sales;
-SELECT * FROM menu;
-
 -- 1. What is the total amount each customer spent at the restaurant?
 SELECT s.customer_id, SUM(price) AS [Total Amount]
 FROM sales s 
@@ -71,7 +67,7 @@ GO
 -- 6. Which item was purchased first by the customer after they became a member?
 WITH cte AS (
 	SELECT customer_id, m.product_name, s.order_date, 
-			RANK() OVER (PARTITION BY 
+			RANK() OVER (PARTITION BY customer_id
 			ORDER BY order_date) AS [Row]
 	FROM sales s 
 	JOIN menu m
@@ -146,4 +142,47 @@ JOIN menu m
 ON s.product_id = m.product_id
 WHERE s.order_date < '2021-01-31'
 GROUP BY s.customer_id;
+GO
+
+
+---------------------
+-- Bonus Questions --
+---------------------
+
+-- Join All The Things
+SELECT s.customer_id, order_date, m.product_name, m.price,
+	CASE 
+		WHEN order_date >= join_date AND s.customer_id = ms.customer_id
+			THEN 'Y'
+		ELSE 'N'
+	END  AS [member]
+FROM sales s
+JOIN menu m
+ON s.product_id = m.product_id
+LEFT JOIN members ms
+ON s.customer_id = ms.customer_id;
+GO
+
+-- Rank All The Things
+WITH cte AS (
+	SELECT s.customer_id, order_date, m.product_name, m.price,
+		CASE 
+			WHEN order_date >= join_date AND s.customer_id = ms.customer_id
+				THEN 'Y'
+			ELSE 'N'
+		END  AS [member]
+	FROM sales s
+	JOIN menu m
+	ON s
+	.product_id = m.product_id
+	LEFT JOIN members ms
+	ON s.customer_id = ms.customer_id
+	)
+SELECT customer_id, order_date, product_name, price, member,
+	CASE member
+		WHEN 'Y'
+			THEN RANK() OVER(PARTITION BY customer_id, (CASE WHEN member = 'Y' THEN 1 END) ORDER BY order_date)
+		ELSE NULL
+	END AS [ranking]
+FROM cte;
 GO
