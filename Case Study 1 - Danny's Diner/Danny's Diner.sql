@@ -113,7 +113,7 @@ GO
 SELECT customer_id, 
 		SUM(
 			CASE 
-			WHEN s.product_id = 1 
+			WHEN m.product_name = 'sushi' 
 				THEN m.price * 20
 			ELSE m.price * 10 
 			END
@@ -160,7 +160,8 @@ FROM sales s
 JOIN menu m
 ON s.product_id = m.product_id
 LEFT JOIN members ms
-ON s.customer_id = ms.customer_id;
+ON s.customer_id = ms.customer_id
+ORDER BY 1, 2, 3;
 GO
 
 -- Rank All The Things
@@ -184,5 +185,6 @@ SELECT customer_id, order_date, product_name, price, member,
 			THEN RANK() OVER(PARTITION BY customer_id, (CASE WHEN member = 'Y' THEN 1 END) ORDER BY order_date)
 		ELSE NULL
 	END AS [ranking]
-FROM cte;
+FROM cte
+ORDER BY 1, 2, 3;
 GO
