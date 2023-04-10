@@ -34,6 +34,8 @@ Tables:
 
 ## Entity Relationship Diagram
 
+![image](https://user-images.githubusercontent.com/125547568/230892814-6fff0ebf-d482-4cc8-8597-df56d1a37a6e.png)
+
 ---
 
 ## Case Study Questions
