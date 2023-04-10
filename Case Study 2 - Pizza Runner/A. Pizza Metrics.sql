@@ -91,11 +91,11 @@ GO
 -- 5. How many Vegetarian and Meatlovers were ordered by each customer?
 SELECT * FROM
 	(
-		SELECT customer_id, order_id, 
-			CAST(pizza_name AS VARCHAR(MAX)) [pizza_name]
-		FROM customer_orders c
-		JOIN pizza_names p
-			ON c.pizza_id = p.pizza_id
+	SELECT customer_id, order_id, 
+		CAST(pizza_name AS VARCHAR(MAX)) [pizza_name]
+	FROM customer_orders c
+	JOIN pizza_names p
+		ON c.pizza_id = p.pizza_id
 	) t
 	PIVOT (
 		COUNT(order_id)

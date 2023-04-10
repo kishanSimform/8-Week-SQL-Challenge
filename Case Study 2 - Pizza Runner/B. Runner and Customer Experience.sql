@@ -90,7 +90,7 @@ WITH cte AS (
 	GROUP BY c.order_id, customer_id, order_time, pickup_time
 	)
 SELECT [Pizza Count], 
-	AVG([Prepare Time]) [Average Prepare Time]
+	AVG([Prepare Time]) [Average PrepareTime]
 FROM cte
 GROUP BY [Pizza Count];
 GO
@@ -120,7 +120,7 @@ GO
 -- 6. What was the average speed for each runner for each delivery and do you notice any trend for these values?
 SELECT runner_id, c.order_id, 
 	COUNT(pizza_id) [Pizza Count],
-	CAST(distance AS DECIMAL(5,2))/CAST(duration AS DECIMAL(5,2)) * 60 AS [Speed (KM/H)]
+	CAST(distance AS DECIMAL(5,2)) / CAST(duration AS DECIMAL(5,2)) * 60 AS [Speed (KM/H)]
 FROM #customer_orders c
 JOIN #runner_orders r
 	ON c.order_id = r.order_id
