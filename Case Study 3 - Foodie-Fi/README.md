@@ -25,6 +25,8 @@ All datasets exist within the `foodie_fi` database schema - be sure to include t
 
 ## Entity Relationship Diagram
 
+![image](https://user-images.githubusercontent.com/125547568/231429702-3973f333-2c27-4c94-9031-1584ce640c33.png)
+
 ---
 
 ## Case Study Questions
