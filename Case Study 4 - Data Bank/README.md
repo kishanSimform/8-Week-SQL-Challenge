@@ -30,6 +30,8 @@ The Data Bank team have prepared a data model for this case study as well as a f
 
 ## Entity Relationship Diagram
 
+![image](https://user-images.githubusercontent.com/125547568/231932551-dd67b09b-6f05-412a-87ff-eacb10513797.png)
+
 ---
 
 ## Case Study Questions
