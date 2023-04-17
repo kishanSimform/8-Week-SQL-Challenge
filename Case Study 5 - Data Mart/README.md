@@ -22,7 +22,9 @@ The key business question he wants you to help him answer are the following:
 For this case study there is only a single table:
 * `weekly_sales`
 
-The Entity Relationship Diagram is shown below with the data types made clear, please note that there is only this one table - hence why it looks a little bit lonely!
+The **Entity Relationship Diagram** is shown below with the data types made clear, please note that there is only this one table - hence why it looks a little bit lonely!
+
+![image](https://user-images.githubusercontent.com/125547568/232410146-dcacbfaa-7fc3-464a-b4f6-3a330de6ef80.png)
 
 ---
 
