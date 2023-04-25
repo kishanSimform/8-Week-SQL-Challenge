@@ -14,8 +14,9 @@ SELECT customer_id,
 	price
 FROM subscriptions s
 JOIN plans p
-ON s.plan_id = p.plan_id
-WHERE customer_id < 9
+	ON s.plan_id = p.plan_id
+WHERE customer_id < 9;
+GO
 
 /*
 Customer 1

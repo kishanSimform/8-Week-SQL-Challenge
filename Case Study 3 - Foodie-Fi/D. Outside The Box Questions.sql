@@ -16,7 +16,7 @@ WITH cte AS (
     GROUP BY DATETRUNC(MONTH, start_date)
     )
 SELECT *, (count - LAG(count) OVER(ORDER BY MON)) [customer_growth],
-    CAST((count - LAG(count) OVER(ORDER BY MON)) * 100 / (count + LAG(count) OVER(ORDER BY MON)) AS VARCHAR) + '%' [customer_growth_perc]
+    CAST((count - LAG(count) OVER(ORDER BY MON)) * 100 / (LAG(count) OVER(ORDER BY MON)) AS VARCHAR) + '%' [customer_growth_perc]
 FROM cte;
 GO
 
@@ -41,7 +41,8 @@ PIVOT (
 	FOR plan_name IN 
 		([trial], [basic monthly], [pro monthly], [pro annual], [churn])
 	) AS piv
-ORDER BY month
+ORDER BY month;
+GO
 
 /*
 This is the data that I would recommand for track over time to assess performance of overall business.
