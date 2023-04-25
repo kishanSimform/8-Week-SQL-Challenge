@@ -18,7 +18,7 @@ however they may also be interested in a daily compounding interest calculation
 so you can try to perform this calculation if you have the stamina!
 */
 
-USE [Week 4 - Data Bank]
+USE [Week 4 - Data Bank];
 
 WITH cte AS (
 	SELECT customer_id, txn_date, txn_amount, txn_type,

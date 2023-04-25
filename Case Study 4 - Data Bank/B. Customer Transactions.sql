@@ -4,8 +4,6 @@
 
 USE [Week 4 - Data Bank];
 
-SELECT * FROM customer_transactions;
-
 -- 1. What is the unique count and total amount for each transaction type?
 SELECT txn_type, COUNT(*) [count], SUM(txn_amount) [total_amount]
 FROM customer_transactions
@@ -44,7 +42,7 @@ WITH cte AS (
 SELECT month, COUNT(customer_id) [customer_count]
 FROM cte 
 WHERE deposit_count > 1 AND
-	(purchase_count > 1 OR withdrawal_count > 1)
+	(purchase_count = 1 OR withdrawal_count = 1)
 GROUP BY month;
 GO
 
@@ -69,6 +67,7 @@ cte2 AS (
 SELECT * 
 INTO #databank
 FROM cte2;
+GO
 
 WITH cte3 AS (
     SELECT DISTINCT customer_id, 
@@ -83,6 +82,7 @@ MERGE INTO #databank t USING cte3 s
 WHEN NOT MATCHED BY TARGET
     THEN INSERT (customer_id, month, total_amount)
     VALUES (s.customer_id, s.month_part, NULL);
+GO
 
 SELECT customer_id, month,
 	CASE 
@@ -152,7 +152,6 @@ cte4 AS (
 	GROUP BY customer_id
 	HAVING SUM(perc) > 0
 	)
---SELECT * FROM cte3
 SELECT CAST(COUNT(customer_id) * 100.0 / (SELECT COUNT(DISTINCT customer_id) FROM customer_nodes) AS DECIMAL(10,2)) [percentage]
 FROM cte4;
 GO

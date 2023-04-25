@@ -22,7 +22,6 @@ Using all of the data available - how much data would have been required for eac
 
 USE [Week 4 - Data Bank];
 
-
 -- running customer balance column that includes the impact each transaction
 
 SELECT customer_id, txn_date, txn_amount, txn_type,
