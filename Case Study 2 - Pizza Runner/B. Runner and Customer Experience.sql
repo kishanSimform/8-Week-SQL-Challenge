@@ -21,6 +21,9 @@ INTO #customer_orders
 FROM customer_orders;
 GO
 
+SELECT * FROM #customer_orders;
+GO
+
 -- Cleaning and Transformation data of runner_orders table
 
 DROP TABLE IF EXISTS #runner_orders;
@@ -54,7 +57,6 @@ INTO #runner_orders
 FROM runner_orders;
 GO
 
-SELECT * FROM #customer_orders;
 SELECT * FROM #runner_orders;
 GO
 

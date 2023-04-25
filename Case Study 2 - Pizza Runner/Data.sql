@@ -1,4 +1,4 @@
-USE [Week 2 - Pizza Runner]
+USE [Week 2 - Pizza Runner];
 
 DROP TABLE IF EXISTS runners;
 

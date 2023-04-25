@@ -4,14 +4,6 @@
 
 USE [Week 2 - Pizza Runner]
 
-SELECT * FROM customer_orders;
-SELECT * FROM runner_orders;
-SELECT * FROM runners;
-SELECT * FROM pizza_names;
-SELECT * FROM pizza_recipes;
-SELECT * FROM pizza_toppings;
-GO
-
 -- Cleaning and Transformation data of customer_orders table
 
 DROP TABLE IF EXISTS #customer_orders;
@@ -30,7 +22,11 @@ FROM customer_orders;
 GO
 
 ALTER TABLE #customer_orders 
-ADD record INT IDENTITY(1,1)
+ADD record INT IDENTITY(1,1);
+GO
+
+SELECT * FROM #customer_orders;
+GO 
 
 -- Cleaning and Transformation data of runner_orders table
 
@@ -65,6 +61,8 @@ INTO #runner_orders
 FROM runner_orders;
 GO
 
+SELECT * FROM #runner_orders;
+GO 
 
 -- Create table for Exclusions toppings of pizza
 
@@ -80,7 +78,11 @@ INTO #exclusions
 FROM cte c
 JOIN pizza_toppings pt
 	ON c.exclusions = pt.topping_id
-GROUP BY record, order_id, pizza_id, topping_id
+GROUP BY record, order_id, pizza_id, topping_id;
+GO
+
+SELECT * FROM #exclusions;
+GO
 
 -- Create table for Extras toppings of pizza
 
@@ -96,12 +98,9 @@ INTO #extras
 FROM cte c
 JOIN pizza_toppings pt
 	ON c.extras = pt.topping_id
-GROUP BY record, order_id, pizza_id, topping_id
+GROUP BY record, order_id, pizza_id, topping_id;
+GO
 
-SELECT * FROM #customer_orders;
-SELECT * FROM #runner_orders;
-
-SELECT * FROM #exclusions;
 SELECT * FROM #extras;
 GO
 
@@ -163,7 +162,7 @@ cte2 AS (
 SELECT topping_name, Count 
 FROM cte2 c
 JOIN pizza_toppings t
-ON c.exclusion = t.topping_id
+	ON c.exclusion = t.topping_id
 WHERE Count = (
 	SELECT MAX(Count) FROM cte2 );
 GO
@@ -236,16 +235,16 @@ WITH cte AS (
 	WHERE r.cancellation IS NULL
 	EXCEPT
 	SELECT record, e.order_id, pizza_id, topping_id
-	FROM #exclusions e
-	JOIN #runner_orders r
-		ON e.order_id = r.order_id
-	WHERE r.cancellation IS NULL ) A
+		FROM #exclusions e
+		JOIN #runner_orders r
+			ON e.order_id = r.order_id
+		WHERE r.cancellation IS NULL ) A
 	UNION ALL
 	SELECT record, e.order_id, pizza_id, topping_id
-	FROM #extras e
-	JOIN #runner_orders r
-		ON e.order_id = r.order_id
-	WHERE r.cancellation IS NULL 
+		FROM #extras e
+		JOIN #runner_orders r
+			ON e.order_id = r.order_id
+		WHERE r.cancellation IS NULL 
 	),
 cte2 AS (
 	SELECT record, order_id, c.pizza_id, CAST(pizza_name AS VARCHAR) [pizza_name], toppings, COUNT(*) [Count], CAST(topping_name AS VARCHAR) [Topping]

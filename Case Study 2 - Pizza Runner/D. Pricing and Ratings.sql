@@ -2,7 +2,7 @@
 -- D. Pricing and Ratings --
 ----------------------------
 
-USE [Week 2 - Pizza Runner]
+USE [Week 2 - Pizza Runner];
 
 -- Cleaning and Transformation data of customer_orders table
 
@@ -22,7 +22,11 @@ FROM customer_orders;
 GO
 
 ALTER TABLE #customer_orders 
-ADD record INT IDENTITY(1,1)
+ADD record INT IDENTITY(1,1);
+GO
+
+SELECT * FROM #customer_orders;
+GO 
 
 -- Cleaning and Transformation data of runner_orders table
 
@@ -57,9 +61,10 @@ INTO #runner_orders
 FROM runner_orders;
 GO
 
-SELECT * FROM #customer_orders;
 SELECT * FROM #runner_orders;
 GO
+
+-- Create table for Extras toppings of pizza
 
 DROP TABLE IF EXISTS #extras;
 
@@ -73,10 +78,11 @@ INTO #extras
 FROM cte c
 JOIN pizza_toppings pt
 	ON c.extras = pt.topping_id
-GROUP BY record, order_id, pizza_id, topping_id
+GROUP BY record, order_id, pizza_id, topping_id;
+GO
 
 SELECT * FROM #extras;
-
+GO
 
 -- 1. If a Meat Lovers pizza costs $12 and Vegetarian costs $10 and there were no charges for changes - how much money has Pizza Runner made so far if there are no delivery fees?
 WITH cte AS (
@@ -198,5 +204,6 @@ WITH cte AS (
 		ON p.pizza_id = c.pizza_id
 	WHERE cancellation IS NULL
 	)
-SELECT SUM(Price) [left_price] FROM cte;
+SELECT SUM(Price) [left_price] 
+FROM cte;
 GO
